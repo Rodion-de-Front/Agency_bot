@@ -8,17 +8,6 @@ const faqs = {
   "Работаете с юр. лицами?": "Да, есть ИП и ООО",
 };
 
-async function mainMenu(ctx) {
-  return ctx.reply(
-    "Добро пожаловать! Чем можем помочь?",
-    Markup.keyboard([
-      ["Что мы делаем", "Тарифы и кейсы"],
-      ["Оставить заявку", "Частые вопросы"],
-      ["Связаться с нами"],
-    ]).resize()
-  );
-}
-
 // Показываем меню FAQ (список вопросов + кнопка назад)
 async function faqMenu(ctx) {
   const buttons = Object.keys(faqs).map((q) => [
@@ -40,24 +29,12 @@ async function faqMenu(ctx) {
 }
 
 module.exports = (bot) => {
-  bot.start(mainMenu);
-
   bot.hears("Частые вопросы", (ctx) => {
     faqMenu(ctx);
   });
 
   bot.on("callback_query", async (ctx) => {
     const data = ctx.callbackQuery.data;
-
-    if (data === "back_to_main") {
-      try {
-        await ctx.editMessageText("Возвращаемся в главное меню.");
-      } catch {
-        await ctx.reply("Возвращаемся в главное меню.");
-      }
-      await mainMenu(ctx);
-      return ctx.answerCbQuery();
-    }
 
     if (data.startsWith("faq_")) {
       const question = data.slice(4);

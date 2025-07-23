@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Telegraf, Markup, session } = require("telegraf");
+const { Telegraf, session } = require("telegraf");
 const startHandler = require("./handlers/start");
 const menuHandler = require("./handlers/menu");
 const faqHandler = require("./handlers/faq");
