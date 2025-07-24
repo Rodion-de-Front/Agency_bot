@@ -1,6 +1,22 @@
 const { Markup } = require("telegraf");
+const { appendToSheet } = require("../utils/google");
 
-module.exports = (ctx) => {
+module.exports = async (ctx) => {
+  const from = ctx.from;
+
+  try {
+    await appendToSheet("Пользователи", [
+      new Date().toLocaleString(),
+      from.id,
+      from.username || "",
+      from.first_name || "",
+      from.last_name || "",
+      ctx.chat?.type || "",
+    ]);
+  } catch (error) {
+    console.error("Ошибка записи пользователя в Google Sheets:", error);
+  }
+
   return ctx.reply(
     "Добро пожаловать! Чем можем помочь?",
     Markup.keyboard([
